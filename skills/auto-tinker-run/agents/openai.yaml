@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Run"
+  short_description: "Plan, build, and verify an experiment"
+  default_prompt: "Use $auto-tinker-run to execute the next approved experiment safely."

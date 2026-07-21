@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker"
+  short_description: "Orchestrate multi-domain tinkering loops"
+  default_prompt: "Use $auto-tinker to orchestrate this multi-domain Auto-Tinker request."

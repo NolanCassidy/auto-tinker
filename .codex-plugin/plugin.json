@@ -1,0 +1,35 @@
+{
+  "name": "auto-tinker",
+  "version": "0.1.0",
+  "description": "Local-first, chat-operated developer experiments, learning history, and approval-gated GitHub publishing.",
+  "author": {
+    "name": "Nolan Cassidy",
+    "url": "https://github.com/NolanCassidy"
+  },
+  "repository": "https://github.com/NolanCassidy/auto-tinker",
+  "skills": "./skills/",
+  "keywords": [
+    "developer-tools",
+    "learning",
+    "experiments",
+    "knowledge-graph",
+    "local-first"
+  ],
+  "interface": {
+    "displayName": "Auto-Tinker",
+    "shortDescription": "Turn curiosity into verified developer experiments.",
+    "longDescription": "Auto-Tinker helps a chat agent remember evidence-backed work, discover relevant ideas, manage a human-controlled queue, run bounded local experiments, teach the result, and publish only under explicit privacy policy.",
+    "developerName": "Nolan Cassidy",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Local-first Markdown memory",
+      "Verified coding experiments",
+      "Approval-gated GitHub publishing"
+    ],
+    "defaultPrompt": [
+      "Set up my local Auto-Tinker workspace.",
+      "Find and rank my best next experiment.",
+      "Review what I built and learned this week."
+    ]
+  }
+}

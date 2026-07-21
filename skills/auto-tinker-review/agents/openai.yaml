@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Review"
+  short_description: "Review progress, evidence, and graph state"
+  default_prompt: "Use $auto-tinker-review to give me a daily review with exact evidence."

@@ -1,26 +1,65 @@
 {
   "name": "auto-tinker",
   "version": "0.1.0",
-  "private": true,
+  "description": "Local-first, chat-operated developer experiments, learning history, and approval-gated publishing.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NolanCassidy/auto-tinker.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "docs/",
+    "skills/",
+    ".codex-plugin/",
+    "bin/",
+    "dist/"
+  ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start --hostname 127.0.0.1",
+    "lint": "eslint",
+    "cli": "tsx src/cli/index.ts",
+    "cli:build": "tsup src/cli/index.ts --format esm --platform node --target node22 --out-dir dist/cli --clean --external node:sqlite",
+    "prepack": "npm run cli:build -- --silent",
+    "test": "vitest run",
+    "test:core": "vitest run tests/core",
+    "test:core:watch": "vitest tests/core"
+  },
+  "bin": {
+    "auto-tinker": "bin/auto-tinker.mjs"
+  },
+  "overrides": {
+    "esbuild": "0.28.1",
+    "postcss": "8.5.21",
+    "sharp": "0.35.3"
   },
   "dependencies": {
-    "next": "16.2.11",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "commander": "^14.0.0",
+    "yaml": "^2.8.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
+    "next": "16.2.11",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

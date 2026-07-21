@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Automate"
+  short_description: "Configure scheduler policy and prompts"
+  default_prompt: "Use $auto-tinker-automate to configure a safe daily Auto-Tinker task prompt."

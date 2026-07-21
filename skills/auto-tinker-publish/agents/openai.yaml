@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Publish"
+  short_description: "Own private and public GitHub mutations"
+  default_prompt: "Use $auto-tinker-publish to prepare this experiment and its private GitHub remote."

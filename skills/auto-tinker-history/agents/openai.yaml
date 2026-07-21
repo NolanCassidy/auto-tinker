@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker History"
+  short_description: "Backfill and reconcile work evidence"
+  default_prompt: "Use $auto-tinker-history to capture or reconcile evidence from my recent work."

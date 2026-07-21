@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Learn"
+  short_description: "Create lessons and capability paths"
+  default_prompt: "Use $auto-tinker-learn to explain what I learned and update my learning path."

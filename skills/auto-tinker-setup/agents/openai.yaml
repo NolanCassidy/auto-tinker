@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Setup"
+  short_description: "Initialize and diagnose a local workspace"
+  default_prompt: "Use $auto-tinker-setup to initialize and check this Auto-Tinker workspace."

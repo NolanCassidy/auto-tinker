@@ -1,0 +1,71 @@
+name: Verify Auto-Tinker
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install exactly locked dependencies
+        run: npm ci
+
+      - name: Test Markdown, graph, policy, and viewer boundaries
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npx tsc --noEmit --incremental false
+
+      - name: Build CLI
+        run: npm run cli:build
+
+      - name: Smoke test packed production CLI
+        shell: bash
+        run: |
+          package_tarball="$(npm pack --silent | tail -n 1)"
+          smoke_dir="$(mktemp -d)"
+          npm install --prefix "$smoke_dir" --omit=dev "./$package_tarball"
+          "$smoke_dir/node_modules/.bin/auto-tinker" --version
+          npm audit --prefix "$smoke_dir" --omit=dev --audit-level=low
+          if npm ls --prefix "$smoke_dir" tsx --depth=0 >/dev/null 2>&1; then
+            echo "Packed production CLI unexpectedly installed tsx" >&2
+            exit 1
+          fi
+
+      - name: Build viewer
+        run: npm run build
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=low
+
+      - name: Check portable skill and plugin layout
+        shell: bash
+        run: |
+          test "$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = "11"
+          test -f .codex-plugin/plugin.json
+          for skill in skills/*; do
+            test -f "$skill/SKILL.md"
+            grep -q '^name:' "$skill/SKILL.md"
+            grep -q '^description:' "$skill/SKILL.md"
+          done

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Profile"
+  short_description: "Maintain goals, interests, and constraints"
+  default_prompt: "Use $auto-tinker-profile to update my interests, goals, and working preferences."

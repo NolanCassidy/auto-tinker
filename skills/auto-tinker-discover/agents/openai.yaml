@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Discover"
+  short_description: "Find and evaluate worthwhile experiments"
+  default_prompt: "Use $auto-tinker-discover to find relevant experiments I can run locally."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Tinker Queue"
+  short_description: "Rank, schedule, and select experiments"
+  default_prompt: "Use $auto-tinker-queue to show and reprioritize my experiment queue."

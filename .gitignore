@@ -12,6 +12,13 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
+
+# private Auto-Tinker runtime state
+/.auto-tinker/
+/tinkers/
+/tasks/
 
 # next.js
 /.next/
@@ -19,6 +26,7 @@
 
 # production
 /build
+/dist/
 
 # misc
 .DS_Store
@@ -35,6 +43,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# local browser verification
+/artifacts/screenshots/
 
 # typescript
 *.tsbuildinfo
