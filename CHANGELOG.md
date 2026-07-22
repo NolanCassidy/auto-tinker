@@ -12,6 +12,7 @@ All notable public changes to Auto-Tinker are documented here.
 - Private-by-default repository workflows, explicit publication approvals, secret redaction, and evidence-linked writing layers.
 - Self-contained npm packaging for the compiled CLI, product documentation, skills, and Codex plugin manifest.
 - Canonical, unique, immutable discovery-source locators and a scheduler-safe daily prompt capsule with absolute mutation roots, date/timezone scope, saved limits, and explicit stop rules.
+- A clone-as-workspace setup flow where `npm run setup` creates ignored personal state and independent nested experiment repositories directly inside the checkout.
 
 ### Fixed
 
@@ -20,6 +21,7 @@ All notable public changes to Auto-Tinker are documented here.
 - Viewer mutations now rebuild the derived index through Node's built-in SQLite module and report a repair warning without pretending a canonical Markdown write was rolled back.
 - Next.js-normalized loopback aliases are accepted when their ports match, while remote hosts, port mismatches, and cross-origin mutations remain blocked.
 - The mobile navigation drawer and durable auto-public switch expose unambiguous accessibility state.
+- A fresh clone can render the viewer's first-run state before `.auto-tinker` exists, while explicit external workspaces and the legacy nested layout remain supported.
 
 ### Security
 
@@ -28,3 +30,5 @@ All notable public changes to Auto-Tinker are documented here.
 - Made private creation and public readiness scan the exact tracked Git tree and fail closed on secrets, unreadable files, binaries, symlinks, oversized files, or other incomplete coverage without treating ignored dependencies as publishable content.
 - Bound publication evidence to the exact reviewed commit and verify the clean local origin/branch/SHA plus the exact private and public GitHub identity, default branch, and SHA around the visibility change.
 - Made private-creation and publication dry-runs perform the same local Git, collision, revision, and scan preflights as execution before making zero GitHub mutations.
+- CI now rejects tracked vault data, task logs, private notes, and generated experiment content even if a contributor bypasses the repository's ignore rules.
+- Next.js output tracing explicitly excludes the private vault, nested experiment repositories, task logs, private notes, and product Git metadata from server build artifacts.

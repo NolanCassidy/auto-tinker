@@ -51,7 +51,7 @@ export async function generatePrompt(
   const voice = (profile.frontmatter.writing_voice as Record<string, unknown> | undefined) ?? {};
   const workspaceRoot = path.resolve(workspace);
   const base = [
-    "You are working in an Auto-Tinker master workspace. Read AGENTS.md and the relevant local docs before acting.",
+    "You are working in an Auto-Tinker workspace. Read AGENTS.md and the relevant local docs before acting.",
     `<trusted-user-goal>\nOutcome: ${redactSecrets(String(mainGoal.frontmatter.outcome ?? mainGoal.body).slice(0, 2000))}\nSuccess criteria: ${redactSecrets(compactList(mainGoal.frontmatter.success_criteria).slice(0, 2000))}\n</trusted-user-goal>`,
     `Goal horizon: ${String(mainGoal.frontmatter.horizon ?? "unspecified")}; exploration budget: ${String(mainGoal.frontmatter.exploration_budget ?? "unspecified")}`,
     "Keep knowledge records valid even if code is absent or unavailable on this device. Never invent a local checkout or GitHub repository.",

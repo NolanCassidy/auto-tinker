@@ -2,19 +2,20 @@
 
 ## Repository boundary
 
-This public product repository contains the reusable skill suite, local CLI/core, local viewer, schemas, examples, and tests.
+This public product repository contains the reusable skill suite, local CLI/core, local viewer, schemas, examples, and tests. A clone is also the default local workspace.
 
-It does not contain a user's private vault, raw chat history, generated experiment repositories, credentials, or SQLite cache. Those live in a containing Auto-Tinker workspace:
+Private state lives inside ignored paths in the working tree, so it is convenient for the local agent without becoming part of the product repository's tracked content or public history:
 
 ```text
-workspace/
-├── .auto-tinker/       # private Markdown vault + derived cache
-├── repos/
-│   └── auto-tinker/    # this public product repository
-├── tinkers/            # generated experiment repositories, private by default
-├── tasks/               # operator records
-└── docs/                # workspace-level product notes
+auto-tinker/
+├── skills/, src/, docs/ # tracked public product
+├── .auto-tinker/        # ignored private Markdown vault + derived cache
+├── tinkers/              # ignored nested Git repositories, private by default
+├── tasks/                # ignored operator records
+└── private/              # ignored personal notes
 ```
+
+An advanced installation may point the same CLI and viewer at an external workspace. The clone-as-workspace layout is the supported default because a new user can clone one repository, open one project, and start.
 
 Resolve the workspace in this order:
 
@@ -108,7 +109,7 @@ Use eleven focused skills rather than the original thirty-seven top-level skills
 
 Queue changes state but never executes. Run executes local code but never mutates GitHub. History captures evidence; review owns cross-record status summaries. Automate configures future task prompts without running them. Publish alone performs GitHub remote mutations.
 
-All skills live in `skills/` for plugin distribution and are symlinked from `.agents/skills/` for repository discovery.
+All skills live in `skills/` for plugin distribution and are symlinked from `.agents/skills/` for repository discovery. Personal records never live in those skill folders.
 
 ## Core commands
 

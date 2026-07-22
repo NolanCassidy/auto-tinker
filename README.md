@@ -23,14 +23,15 @@ The chat is the control surface. The viewer helps you understand and review stat
 
 ## Local-first model
 
-Auto-Tinker separates the public product from private user state:
+An Auto-Tinker clone is both the public product checkout and the default local workspace. Tracked product files and ignored personal state share one convenient folder without sharing one Git history:
 
 ```text
-your-workspace/
-├── .auto-tinker/       # private Markdown vault + rebuildable SQLite index
-├── repos/
-│   └── auto-tinker/    # this public repository
-└── tinkers/            # generated experiment repositories
+auto-tinker/
+├── skills/, src/, docs/ # tracked reusable product
+├── .auto-tinker/        # ignored private Markdown vault + rebuildable SQLite index
+├── tinkers/              # ignored nested experiment repositories
+├── tasks/                # ignored local operator records
+└── private/              # ignored personal notes
 ```
 
 Markdown is the source of truth. SQLite is only a local search and graph index. A future hosted sync can synchronize the knowledge graph without pretending every source repository exists on every device.
@@ -39,29 +40,29 @@ Markdown is the source of truth. SQLite is only a local search and graph index. 
 
 Requirements: Node.js 22 or newer, npm, Git, and optionally an authenticated GitHub CLI for repository workflows.
 
-The public Auto-Tinker checkout is product code, not your private workspace. Always put it inside a separate containing master workspace and initialize that containing directory. **Never initialize `repos/auto-tinker` itself.**
+Clone Auto-Tinker, open that folder as your coding-agent project, and initialize it in place. The repository ignores the personal vault, local task logs, private notes, and every generated child repository under `tinkers/`.
 
 ```bash
-mkdir -p my-auto-tinker-workspace/repos
-cd my-auto-tinker-workspace/repos
-git clone https://github.com/NolanCassidy/auto-tinker.git auto-tinker
+git clone https://github.com/NolanCassidy/auto-tinker.git
 cd auto-tinker
 npm install
 
-# Initialize the containing master workspace, never this public product checkout.
-npm run cli -- --workspace ../.. init
+# Create ignored local state in this clone.
+npm run setup
 
 # Inspect configuration and machine compatibility.
-npm run cli -- --workspace ../.. doctor
-npm run cli -- --workspace ../.. inspect-machine
+npm run cli -- --workspace . inspect-machine
+npm run cli -- --workspace . doctor
 
-# Run the local viewer.
-AUTO_TINKER_WORKSPACE="$(cd ../.. && pwd)" npm run dev
+# Run the local viewer; it finds this workspace automatically.
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
 Run `npm run cli -- --help` for the complete deterministic command surface. Normal usage should happen through the included skills rather than by memorizing CLI flags.
+
+Advanced users can keep personal state in another folder by passing `--workspace /absolute/path` or setting `AUTO_TINKER_WORKSPACE`. The in-clone layout is the supported first-run default, not a requirement.
 
 ## Use through chat
 
@@ -82,7 +83,7 @@ The repository ships eleven focused skills under `skills/` and exposes them to C
 Example prompts:
 
 ```text
-Use $auto-tinker-setup to initialize this as my master workspace and inspect my computer.
+Use $auto-tinker-setup to initialize this clone as my workspace and inspect my computer.
 
 Use $auto-tinker-history to backfill the Codex work you can access. Keep company details private and show me uncertain matches.
 
@@ -103,7 +104,7 @@ The viewer contains matching copy-to-chat prompts for common actions. See [chat 
 
 ## Privacy and publication
 
-- Personal vaults, raw history, journals, SQLite indexes, and generated experiment repositories are not part of this public repository.
+- Personal vaults, raw history, journals, SQLite indexes, local task logs, private notes, and generated experiment repositories live inside the clone but are ignored and never become part of its public Git history.
 - New GitHub experiment repositories are private. Public visibility requires separate `repository_publication_approval`, explicit current-chat consent, or durable `auto_public: true`.
 - README review, public-story review, writing approval, repository-publication approval, and actual GitHub visibility are separate. Clicking “approved” in the viewer does not call GitHub.
 - Public stories are generated from reviewed evidence, not copied from private journals.

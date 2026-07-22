@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { promisify } from "node:util";
 import {
   appendEvent,
   createRecord,
@@ -18,6 +20,7 @@ import {
 } from "../../src/lib/auto-tinker";
 
 const workspaces: string[] = [];
+const execFileAsync = promisify(execFile);
 async function workspace(): Promise<string> {
   const root = await mkdtemp(path.join(tmpdir(), "auto-tinker-test-"));
   workspaces.push(root);
@@ -61,6 +64,39 @@ describe("workspace and canonical vault", () => {
     expect((await resolveWorkspace({ explicit: root })).root).toBe(await import("node:fs/promises").then(({ realpath }) => realpath(root)));
     expect((await resolveWorkspace({ env: { ...process.env, AUTO_TINKER_WORKSPACE: root }, cwd: tmpdir() })).root).toContain("auto-tinker-test-");
     expect((await resolveWorkspace({ cwd: nested, env: { ...process.env, AUTO_TINKER_WORKSPACE: undefined } })).root).toContain("auto-tinker-test-");
+  });
+
+  it("initializes safely inside a Git clone without exposing local state", async () => {
+    const root = await mkdtemp(path.join(tmpdir(), "auto-tinker-git-clone-"));
+    workspaces.push(root);
+    const productIgnore = await readFile(new URL("../../.gitignore", import.meta.url), "utf8");
+    await writeFile(path.join(root, ".gitignore"), productIgnore);
+    await writeFile(path.join(root, "README.md"), "# Product checkout\n");
+    await execFileAsync("git", ["init", "--quiet"], { cwd: root });
+    await execFileAsync("git", ["add", ".gitignore", "README.md"], { cwd: root });
+    const before = (await execFileAsync("git", ["status", "--short", "--untracked-files=all"], { cwd: root })).stdout;
+
+    const first = await initializeWorkspace(root);
+    const second = await initializeWorkspace(root);
+    await mkdir(path.join(root, "tinkers", "sample"), { recursive: true });
+    await writeFile(path.join(root, "tinkers", "sample", "README.md"), "nested repository fixture\n");
+    await writeFile(path.join(root, "tasks", "local.md"), "ignored task log\n");
+    await mkdir(path.join(root, "private"), { recursive: true });
+    await writeFile(path.join(root, "private", "notes.md"), "ignored personal note\n");
+
+    expect(first.created).toBe(true);
+    expect(second.created).toBe(false);
+    expect((await resolveWorkspace({ cwd: path.join(root, "tinkers", "sample") })).root).toBe(await realpath(root));
+    const after = (await execFileAsync("git", ["status", "--short", "--untracked-files=all"], { cwd: root })).stdout;
+    expect(after).toBe(before);
+    for (const localPath of [
+      ".auto-tinker/config.md",
+      "tinkers/sample/README.md",
+      "tasks/local.md",
+      "private/notes.md",
+    ]) {
+      await expect(execFileAsync("git", ["check-ignore", "--quiet", localPath], { cwd: root })).resolves.toBeDefined();
+    }
   });
 
   it("redacts secrets before Markdown is written", async () => {

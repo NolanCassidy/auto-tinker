@@ -3,14 +3,15 @@
 ## Expected workspace boundary
 
 ```text
-workspace/
-├── .auto-tinker/       # private canonical Markdown and derived cache
-├── repos/auto-tinker/  # reusable public product checkout
-├── tinkers/             # generated experiments
-└── tasks/               # operator records
+auto-tinker/
+├── skills/, src/, docs/ # tracked reusable product
+├── .auto-tinker/        # ignored private canonical Markdown and derived cache
+├── tinkers/              # ignored generated experiment repositories
+├── tasks/                # ignored operator records
+└── private/              # ignored personal notes
 ```
 
-Never store raw chats, credentials, private journals, generated experiments, or the SQLite cache inside `repos/auto-tinker`.
+The clone itself is the default workspace. Store personal state only in the ignored paths above. Never put raw chats, credentials, private journals, generated experiments, private notes, or the SQLite cache in tracked product files.
 
 ## Diagnostic sequence
 
@@ -26,7 +27,8 @@ Run the first command only for initialization. Use `auto-tinker <command> --help
 
 ## Doctor expectations
 
-- Workspace paths resolve outside the product repository.
+- Workspace paths resolve to the selected clone or an explicitly configured external workspace.
+- In a source clone, `.auto-tinker/`, generated `tinkers/*`, `tasks/`, and `private/` are ignored by the product Git repository.
 - Required Markdown folders and core configuration are readable.
 - Records parse, stable IDs are unique, links resolve, and privacy values are valid.
 - SQLite can be rebuilt from Markdown.

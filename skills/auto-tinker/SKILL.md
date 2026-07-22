@@ -11,7 +11,7 @@ Invoke the CLI as `auto-tinker`; when working from an unlinked source checkout, 
 
 ## Start every request
 
-1. Resolve the workspace with `--workspace`, `AUTO_TINKER_WORKSPACE`, or the CLI's upward search. Do not assume the product repository is the personal workspace.
+1. Resolve the workspace with `--workspace`, `AUTO_TINKER_WORKSPACE`, or the CLI's upward search. A source clone is the default personal workspace after initialization; an explicitly configured external workspace still wins.
 2. Run `auto-tinker doctor --workspace <path> --json` before a multi-step or mutating workflow. If both CLI forms are unavailable, explain that dependencies must be installed in the Auto-Tinker product repository and stop before fabricating state.
 3. Read `auto-tinker goal show --workspace <path> --json`. Keep exactly one active main goal, distinct from interests and optional supporting goals; do not silently choose one.
 4. Parse JSON results and carry returned record IDs into later commands. Do not infer IDs from filenames.
@@ -34,7 +34,7 @@ Do not retain ownership after routing a focused request. In a multi-domain loop,
 
 ## Enforce invariants
 
-- Create experiment repositories locally under the workspace `tinkers/` area, never inside the public product checkout.
+- Create experiment repositories under the workspace's ignored `tinkers/` area. In the default layout this is inside the clone's working tree but outside the product repository's tracked contents.
 - Create remote experiment repositories as private through `$auto-tinker-publish`. Change visibility only when `repository_publication_approval: approved`, an explicit current-chat approval is supplied to the publish workflow, or durable settings explicitly contain `auto_public: true`.
 - Never infer `auto_public` from enthusiasm, prior pushes, or a public source repository.
 - Preserve attribution, licenses, failures, negative results, command evidence, and test output.

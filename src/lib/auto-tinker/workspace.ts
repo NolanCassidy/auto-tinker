@@ -47,21 +47,21 @@ function expandHome(input: string): string {
 }
 
 export function workspacePaths(root: string): WorkspacePaths {
-  const resolved = path.resolve(expandHome(root));
-  const vault = path.join(resolved, ".auto-tinker");
+  const resolved = path.resolve(/* turbopackIgnore: true */ expandHome(root));
+  const vault = path.join(/* turbopackIgnore: true */ resolved, ".auto-tinker");
   return {
     root: resolved,
     vault,
-    config: path.join(vault, "config.md"),
-    index: path.join(vault, "index.sqlite"),
-    cache: path.join(vault, "cache"),
-    tinkers: path.join(resolved, "tinkers"),
-    tasks: path.join(resolved, "tasks"),
+    config: path.join(/* turbopackIgnore: true */ vault, "config.md"),
+    index: path.join(/* turbopackIgnore: true */ vault, "index.sqlite"),
+    cache: path.join(/* turbopackIgnore: true */ vault, "cache"),
+    tinkers: path.join(/* turbopackIgnore: true */ resolved, "tinkers"),
+    tasks: path.join(/* turbopackIgnore: true */ resolved, "tasks"),
   };
 }
 
 async function normalizeExistingPath(input: string): Promise<string> {
-  const resolved = path.resolve(expandHome(input));
+  const resolved = path.resolve(/* turbopackIgnore: true */ expandHome(input));
   return realpath(resolved).catch(() => resolved);
 }
 
@@ -70,7 +70,7 @@ export async function findWorkspace(start = process.cwd()): Promise<string | und
   const statLikeVault = path.basename(current) === ".auto-tinker";
   if (statLikeVault) current = path.dirname(current);
   while (true) {
-    if (await pathExists(path.join(current, ".auto-tinker", "config.md"))) return current;
+    if (await pathExists(path.join(/* turbopackIgnore: true */ current, ".auto-tinker", "config.md"))) return current;
     const parent = path.dirname(current);
     if (parent === current) return undefined;
     current = parent;
@@ -114,10 +114,16 @@ export async function initializeWorkspace(root: string, settings: Partial<AutoTi
 }> {
   const paths = workspacePaths(root);
   await ensurePrivateDirectory(paths.vault);
-  for (const directory of VAULT_DIRECTORIES) await ensurePrivateDirectory(path.join(paths.vault, directory));
+  for (const directory of VAULT_DIRECTORIES) {
+    await ensurePrivateDirectory(path.join(/* turbopackIgnore: true */ paths.vault, directory));
+  }
   await mkdir(paths.tinkers, { recursive: true });
   await mkdir(paths.tasks, { recursive: true });
-  await atomicWriteFile(path.join(paths.vault, ".gitignore"), "index.sqlite\nindex.sqlite-*\ncache/\nlocal/\n", 0o600);
+  await atomicWriteFile(
+    path.join(/* turbopackIgnore: true */ paths.vault, ".gitignore"),
+    "index.sqlite\nindex.sqlite-*\ncache/\nlocal/\n",
+    0o600,
+  );
 
   if (await pathExists(paths.config)) {
     await readConfig(paths.root);
@@ -163,7 +169,7 @@ export async function initializeWorkspace(root: string, settings: Partial<AutoTi
     metadata: { label: "This device" },
   });
   await atomicWriteFile(
-    path.join(paths.vault, "local", "current-device.md"),
+    path.join(/* turbopackIgnore: true */ paths.vault, "local", "current-device.md"),
     `---\ndevice_id: ${device.frontmatter.id}\n---\n\n# Current device\n\nThis local-only pointer is intentionally excluded from sync.\n`,
   );
   await createRecord(paths.root, "profile", {

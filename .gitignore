@@ -17,8 +17,10 @@
 
 # private Auto-Tinker runtime state
 /.auto-tinker/
-/tinkers/
+/tinkers/*
+!/tinkers/README.md
 /tasks/
+/private/
 
 # next.js
 /.next/

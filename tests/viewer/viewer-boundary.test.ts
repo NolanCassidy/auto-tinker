@@ -6,20 +6,32 @@ import {
 } from "../../src/app/api/_viewer-boundary";
 
 describe("uninitialized viewer workspace selection", () => {
-  it("infers only from the exact master/repos/auto-tinker shape", () => {
+  it("uses a safe clone root before local state is initialized", () => {
     expect(safeUninitializedWorkspaceCandidate({
-      cwd: "/work/master/repos/auto-tinker",
+      cwd: "/work/projects/auto-tinker",
       homeDirectory: "/home/tester",
-    })).toBe(path.resolve("/work/master"));
+    })).toBe(path.resolve("/work/projects/auto-tinker"));
     expect(safeUninitializedWorkspaceCandidate({
-      cwd: "/work/master/auto-tinker",
+      cwd: "/work/projects/custom-clone-name",
       homeDirectory: "/home/tester",
-    })).toBeNull();
+    })).toBe(path.resolve("/work/projects/custom-clone-name"));
+    expect(safeUninitializedWorkspaceCandidate({
+      cwd: "/work/legacy/repos/auto-tinker",
+      homeDirectory: "/home/tester",
+    })).toBe(path.resolve("/work/legacy"));
   });
 
   it("never selects the filesystem root or home as a workspace", () => {
     expect(safeUninitializedWorkspaceCandidate({
       cwd: "/repos/auto-tinker",
+      homeDirectory: "/home/tester",
+    })).toBeNull();
+    expect(safeUninitializedWorkspaceCandidate({
+      cwd: "/home/tester",
+      homeDirectory: "/home/tester",
+    })).toBeNull();
+    expect(safeUninitializedWorkspaceCandidate({
+      cwd: "/",
       homeDirectory: "/home/tester",
     })).toBeNull();
     expect(safeUninitializedWorkspaceCandidate({

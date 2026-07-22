@@ -4,20 +4,22 @@ Auto-Tinker is operated by talking to an agent that can load the repository's sk
 
 ## Workspace layout
 
-Keep the public product checkout and private personal data separate:
+The clone is the default workspace. Git ignore boundaries keep reusable product files separate from private personal state:
 
 ```text
-your-workspace/
-├── .auto-tinker/       # private Markdown vault and derived local index
-├── repos/auto-tinker/  # this reusable public product
-└── tinkers/             # generated experiment repositories
+auto-tinker/
+├── skills/, src/, docs/ # tracked reusable product
+├── .auto-tinker/        # ignored private Markdown vault and derived local index
+├── tinkers/              # ignored independent experiment repositories
+├── tasks/                # ignored operator records
+└── private/              # ignored personal notes
 ```
 
-The CLI resolves a workspace from `--workspace`, `AUTO_TINKER_WORKSPACE`, or an ancestor containing `.auto-tinker/config.md`. For the first setup, paste:
+The CLI resolves a workspace from `--workspace`, `AUTO_TINKER_WORKSPACE`, or an ancestor containing `.auto-tinker/config.md`. A first-time user can clone the repository, open that folder, install dependencies, and paste:
 
-> Use $auto-tinker-setup to initialize this master workspace, inspect my machine, run doctor, and tell me exactly what remains local.
+> Use $auto-tinker-setup to initialize this Auto-Tinker clone as my local workspace, inspect my machine, run doctor, and tell me exactly which paths remain ignored and private.
 
-The skills invoke `auto-tinker` when it is installed or linked. From a source checkout they can run the same contract with `npm --prefix /absolute/path/to/repos/auto-tinker run cli -- <arguments>`.
+The skills invoke `auto-tinker` when it is installed or linked. From the source clone they can run the same contract with `npm run cli -- <arguments>`. An advanced external workspace can still use `--workspace /absolute/workspace` or `AUTO_TINKER_WORKSPACE`.
 
 ## The 11 skills
 

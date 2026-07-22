@@ -9,8 +9,9 @@ function isUnsafeWorkspaceRoot(candidate: string, homeDirectory: string) {
 }
 
 /**
- * An environment variable is an explicit choice. CWD fallback is intentionally
- * narrower: only <workspace>/repos/auto-tinker can infer the master workspace.
+ * An environment variable is an explicit choice. Without one, the locally
+ * started product treats its safe current working directory as the first-run
+ * workspace. This lets a fresh clone render setup before `.auto-tinker` exists.
  */
 export function safeUninitializedWorkspaceCandidate(options: {
   cwd: string;
@@ -25,9 +26,10 @@ export function safeUninitializedWorkspaceCandidate(options: {
   }
 
   const product = path.resolve(options.cwd);
-  const repos = path.dirname(product);
-  if (path.basename(product) !== "auto-tinker" || path.basename(repos) !== "repos") return null;
-  const workspace = path.dirname(repos);
+  const parent = path.dirname(product);
+  const workspace = path.basename(product) === "auto-tinker" && path.basename(parent) === "repos"
+    ? path.dirname(parent)
+    : product;
   return isUnsafeWorkspaceRoot(workspace, homeDirectory) ? null : workspace;
 }
 

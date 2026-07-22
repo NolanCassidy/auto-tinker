@@ -409,7 +409,7 @@ async function workspaceForViewer(): Promise<{ paths: WorkspacePaths; initialize
       explicit: process.env.AUTO_TINKER_WORKSPACE,
     });
     if (!likelyWorkspace) {
-      throw new Error("The local viewer could not safely infer an Auto-Tinker master workspace");
+      throw new Error("The local viewer could not safely infer an Auto-Tinker workspace");
     }
     return {
       paths: await resolveWorkspace({ explicit: likelyWorkspace, allowUninitialized: true }),

@@ -6,6 +6,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
+  // A clone is also a private local workspace. Runtime records must never be
+  // copied into a Next.js server trace or standalone deployment artifact.
+  outputFileTracingExcludes: {
+    "/*": [
+      "./.auto-tinker/**/*",
+      "./tinkers/**/*",
+      "./tasks/**/*",
+      "./private/**/*",
+      "./.git/**/*",
+    ],
+  },
   async headers() {
     return [
       {
