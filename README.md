@@ -14,6 +14,7 @@ The chat is the control surface. The viewer helps you understand and review stat
 - Lets you star, reorder, schedule, block, and select one or several experiments through chat, then execute them with a separate run skill.
 - Stores an explicit bounded automation mode and time budget; unattended work defaults to discovery-only and public publication stays separate.
 - Creates generated experiment repositories as **private by default**.
+- Gives experiments concise, project-specific repository names rather than generic workspace-prefixed names.
 - Runs bounded local experiments, verifies them, and records failures as real evidence.
 - Produces four linked writing layers: candid private journal, rich README, dated changelog, and privacy-reviewed public story.
 - Keeps knowledge even when the original code lives on another computer, was never pushed, or is no longer available.

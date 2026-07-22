@@ -65,6 +65,7 @@ Use append-only records under `events/` for observations. Curated records in oth
 Remote repository defaults:
 
 - create every generated experiment repository as private
+- choose a concise project-specific name, check owner-scoped collisions, and avoid generic workspace, username, or date prefixes; adaptations name the meaningful delta from upstream
 - distinguish local experiment-record privacy from remote creation visibility; `review` never means a GitHub visibility
 - require a clean committed local repository and create/push in one explicit GitHub CLI operation
 - verify actual private visibility, default branch, and remote SHA against local HEAD before recording the remote

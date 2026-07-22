@@ -16,7 +16,7 @@ Invoke the CLI as `auto-tinker`; from an unlinked source checkout use `npm --pre
 3. Reuse enabled catalog records and their weights/techniques. Add or update durable sources with `auto-tinker source add|update`, including kind, credential-free web URL or `local://<safe-alias>`, topics, languages, cadence, weight, query techniques, trust notes, and retrieval date. Keep query hints deterministic and source-specific; never store a local absolute path.
 4. Search fresh sources with available web/GitHub tools. Use primary repository, release, package-registry, paper, or vendor sources for technical claims; record retrieval dates.
 5. Inspect license, provenance, recent maintenance, docs/tests, issue quality, local requirements, supply-chain risk, and duplication before recommending a candidate.
-6. Design one bounded, meaningful experiment for each viable candidate. Prefer a coherent from-scratch implementation when adaptation would be trivial; prefer an attributed adaptation when the source itself is what the user should learn.
+6. Design one bounded, meaningful experiment for each viable candidate. Propose a concise, project-specific repository name that describes the artifact rather than its workspace: usually two to four memorable words, with no generic `tinker-`, `auto-tinker-`, `experiment-`, username, or date prefix. For adaptations, distinguish the user's actual delta from the upstream project without implying official ownership. Prefer a coherent from-scratch implementation when adaptation would be trivial; prefer an attributed adaptation when the source itself is what the user should learn.
 7. Persist each result with `auto-tinker candidate add`, including `--goal-contribution` and `--distraction-risk`; then score it with `auto-tinker candidate evaluate <id>` using the same explicit reasoning. Use returned IDs; do not infer them.
 8. Show several diverse candidates with reasons, evidence, risks, estimated effort, and the precise proposed change. Do not clone or start work in this skill.
 
@@ -32,5 +32,6 @@ Read [source-and-scoring.md](references/source-and-scoring.md) before broad disc
 - Never imply that a source is “trending” without current dated evidence.
 - Keep candidate state private. Public source material does not make the user's future work public.
 - Explain whether each idea advances the active main goal, serves only a supporting interest, or consumes the configured exploration budget as a deliberate distraction.
+- Treat the repository name as part of recommendation quality: check likely GitHub collisions and explain any less-obvious adaptation name.
 
 Return candidate IDs and a copyable prompt for starring, reordering, or starting them.

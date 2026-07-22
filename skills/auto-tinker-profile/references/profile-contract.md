@@ -9,6 +9,7 @@
 - **Feedback:** starred, skipped, too easy, too hard, boring, exciting, and explicit negative preferences.
 - **Automation:** experiment count, concurrency, schedule intent, time/compute budget, network policy, cleanup, and allowed modes.
 - **Publication:** default private, independent README/public-story/attribution/license review requirements, `repository_publication_approval`, and durable `auto_public`.
+- **Repository naming:** durable naming constraints belong in the profile. Prefer concise project-specific names, avoid generic workspace/username/date prefixes, check likely GitHub collisions, and make adaptation names describe the user's delta without implying upstream ownership.
 
 ## Recommendation policy
 

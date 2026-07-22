@@ -15,7 +15,7 @@ Invoke the CLI as `auto-tinker`; from an unlinked source checkout use `npm --pre
 2. Confirm the selected candidate/goal, mode (`scratch` or `adapt`), time budget, allowed paths/network, stop conditions, and success tests.
 3. Resolve code location: verified local path, verified remote URL/revision, evidence snapshot only, missing, or unverified. Never invent a local path or GitHub repository.
 4. For adaptations, inspect the exact upstream revision, license, trust, setup, and attribution requirements before execution. If source code is unavailable, explain what is missing or offer a separately scoped scratch experiment.
-5. Run `auto-tinker experiment create --title <title> --goal <goal> --mode <mode>` with only verified candidate/source/repo/tags options and any truthful repeatable `--location <json>` values.
+5. Choose a concise, project-specific `--repo-name` that follows explicit profile constraints and describes the artifact, not the workspace. Do not add generic `tinker-`, `auto-tinker-`, `experiment-`, username, or date prefixes. For an adaptation, name the user's delta clearly enough to avoid confusion with upstream. Run `auto-tinker experiment create --title <title> --goal <goal> --mode <mode> --repo-name <name>` with only verified candidate/source/repo/tags options and any truthful repeatable `--location <json>` values.
 6. Run `auto-tinker repo plan <experiment-id> --workspace <path> --json` and review the planned local/remote identity. Planning does not create or publish a remote. Do not edit until the exact workspace `tinkers/` path is returned and approved.
 
 ## Build and verify

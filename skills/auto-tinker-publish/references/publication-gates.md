@@ -7,6 +7,7 @@ Classify code location as verified local, verified remote, both, missing, or unv
 ## Private remote gate
 
 - exact GitHub owner and repository name
+- concise project-specific name with no generic workspace, username, or date prefix; adaptations name the user's delta and cannot be mistaken for upstream
 - authenticated account and destination authorization
 - remote will be created private
 - clean committed local repository root with no pre-existing `origin`

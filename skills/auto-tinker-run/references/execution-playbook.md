@@ -7,7 +7,7 @@ auto-tinker experiment create --workspace /absolute/workspace --json \
   --title "Durable local workflow demo" \
   --goal "Learn replay-safe job orchestration" \
   --mode scratch \
-  --repo-name "durable-workflow-tinker" \
+  --repo-name "durable-workflow" \
   --tags "typescript,workflow,local-first"
 ```
 
@@ -21,10 +21,10 @@ auto-tinker experiment create --workspace /absolute/workspace --json \
   --candidate <candidate-id> \
   --source-repo "https://github.com/upstream/project" \
   --location '{"kind":"github","availability":"present","uri":"https://github.com/upstream/project","revision":"<pinned-sha>"}' \
-  --repo-name "offline-graph-adaptation"
+  --repo-name "offline-graph-mode"
 ```
 
-Record exact upstream URL and revision in the experiment and repository README. Do not imply upstream authorship.
+Repository names should usually be two to four lowercase kebab-case words that describe the artifact or capability. Do not prefix them with the workspace, username, date, `tinker-`, `auto-tinker-`, or `experiment-`. On collision, add the smallest truthful capability or runtime differentiator; numeric suffixes are a last resort. Record exact upstream URL and revision in the experiment and repository README. Do not imply upstream authorship.
 
 ```bash
 auto-tinker experiment update <id> --workspace /absolute/workspace --json \
